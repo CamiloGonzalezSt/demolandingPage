@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Rincón Chileno — Comida Rápida con Sabor de Verdad</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rojo: #C0392B;
+      --rojo-dark: #96281B;
+      --rojo-light: #FAEAE8;
+      --amarillo: #F1C40F;
+      --amarillo-dark: #D4AC0D;
+      --crema: #FDF6EC;
+      --crema-dark: #F2E8D5;
+      --carbon: #1A1208;
+      --cafe: #4A2C1A;
+      --cafe-medio: #7A4A2A;
+      --gris: #8A8072;
+      --blanco: #FFFDF9;
+      --radius: 4px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--carbon);
+      color: var(--blanco);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 5vw;
+      background: rgba(26, 18, 8, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.05em;
+      color: var(--amarillo);
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(255,255,255,0.7);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--amarillo); }
+    .nav-cta {
+      background: var(--rojo); color: #fff; border: none; border-radius: var(--radius);
+      padding: 0.55rem 1.4rem; font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+      font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--rojo-dark); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+      padding: 8rem 5vw 4rem;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(192,57,43,0.18) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(241,196,15,0.12); border: 1px solid rgba(241,196,15,0.3);
+      border-radius: 100px; padding: 0.35rem 1rem;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--amarillo);
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge::before { content: '★'; font-size: 0.7rem; }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      color: var(--blanco);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title span { color: var(--rojo); display: block; }
+
+    .hero-sub {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+      max-width: 440px;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; align-items: center; }
+    .btn-primary {
+      background: var(--rojo); color: #fff;
+      border: none; border-radius: var(--radius);
+      padding: 0.9rem 2.2rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--rojo-dark); transform: translateY(-1px); }
+    .btn-secondary {
+      background: transparent; color: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.2); border-radius: var(--radius);
+      padding: 0.9rem 2rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; font-weight: 500; letter-spacing: 0.04em;
+      cursor: pointer; transition: border-color 0.2s, color 0.2s;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+
+    .hero-stats {
+      display: flex; gap: 2rem; margin-top: 3rem;
+      padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem; color: var(--amarillo); line-height: 1;
+    }
+    .stat-label { font-size: 0.75rem; color: var(--gris); margin-top: 0.2rem; letter-spacing: 0.05em; text-transform: uppercase; }
+
+    /* Hero Visual */
+    .hero-visual {
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .hero-plate {
+      width: 380px; height: 380px;
+      border-radius: 50%;
+      background: var(--cafe);
+      border: 3px solid rgba(192,57,43,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9rem;
+      position: relative;
+      box-shadow: 0 0 80px rgba(192,57,43,0.25), inset 0 0 40px rgba(0,0,0,0.4);
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .hero-tag {
+      position: absolute;
+      background: var(--rojo); color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem; letter-spacing: 0.08em;
+      padding: 0.4rem 1rem; border-radius: 100px;
+    }
+    .hero-tag.top-right { top: 2rem; right: -1rem; transform: rotate(8deg); }
+    .hero-tag.bottom-left { bottom: 3rem; left: -1rem; transform: rotate(-6deg); background: var(--amarillo-dark); }
+
+    /* ─── SECTION TITLES ─── */
+    .section-tag {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--rojo);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      letter-spacing: 0.03em; line-height: 1;
+      color: var(--blanco); margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-family: 'Fraunces', serif; font-style: italic;
+      font-size: 1rem; color: rgba(255,255,255,0.55); line-height: 1.7;
+      max-width: 520px;
+    }
+
+    /* ─── MENU SECTION ─── */
+    .menu-section {
+      padding: 6rem 5vw;
+      background: var(--carbon);
+    }
+    .menu-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 3rem;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .menu-filters {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.6); border-radius: 100px;
+      padding: 0.45rem 1.1rem; font-size: 0.8rem; font-weight: 500;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--rojo); border-color: var(--rojo); color: #fff;
+    }
+
+    .menu-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .menu-card {
+      background: var(--cafe);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px; overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+    }
+    .menu-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+    .card-image {
+      height: 160px;
+      background: var(--cafe-medio);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-image::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 40px;
+      background: linear-gradient(transparent, var(--cafe));
+    }
+    .card-badge {
+      position: absolute; top: 0.75rem; left: 0.75rem;
+      background: var(--rojo); color: #fff;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.25rem 0.6rem; border-radius: 4px;
+    }
+    .card-badge.nuevo { background: var(--amarillo-dark); }
+    .card-body { padding: 1rem 1.25rem 1.25rem; }
+    .card-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem; letter-spacing: 0.04em;
+      color: var(--blanco); margin-bottom: 0.3rem;
+    }
+    .card-desc { font-size: 0.8rem; color: var(--gris); line-height: 1.5; margin-bottom: 1rem; }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; }
+    .card-price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem; color: var(--amarillo);
+    }
+    .card-price span { font-family: 'DM Sans', sans-serif; font-size: 0.8rem; color: var(--gris); font-weight: 400; }
+    .add-btn {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--rojo); border: none; color: #fff;
+      font-size: 1.3rem; cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .add-btn:hover { background: var(--rojo-dark); transform: scale(1.1); }
+
+    /* ─── FEATURE STRIP ─── */
+    .feature-strip {
+      background: var(--rojo);
+      padding: 2.5rem 5vw;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    .feature-item { display: flex; align-items: center; gap: 1rem; }
+    .feature-icon { font-size: 2rem; flex-shrink: 0; }
+    .feature-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem; letter-spacing: 0.05em;
+      color: #fff; display: block; line-height: 1.1;
+    }
+    .feature-sub { font-size: 0.78rem; color: rgba(255,255,255,0.7); margin-top: 0.15rem; }
+
+    /* ─── ABOUT / HISTORIA ─── */
+    .about-section {
+      padding: 7rem 5vw;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+      background: #111008;
+    }
+    .about-visual {
+      position: relative;
+    }
+    .about-img-main {
+      width: 100%; aspect-ratio: 4/3;
+      background: var(--cafe);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 6rem;
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+    }
+    .about-img-accent {
+      position: absolute; bottom: -1.5rem; right: -1.5rem;
+      width: 140px; height: 140px;
+      background: var(--rojo);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem; letter-spacing: 0.1em;
+      text-align: center; line-height: 1.2;
+      box-shadow: 0 8px 24px rgba(192,57,43,0.4);
+    }
+    .about-list { list-style: none; margin-top: 1.5rem; }
+    .about-list li {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 0.9rem 0; border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .about-list li:last-child { border-bottom: none; }
+    .about-check {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(192,57,43,0.2); border: 1px solid var(--rojo);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; color: var(--rojo); flex-shrink: 0; margin-top: 1px;
+    }
+    .about-list p { font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.6; }
+    .about-list strong { color: var(--blanco); }
+
+    /* ─── TESTIMONIOS ─── */
+    .testimonios-section {
+      padding: 6rem 5vw;
+      background: var(--carbon);
+      text-align: center;
+    }
+    .testimonios-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem; margin-top: 3rem; text-align: left;
+    }
+    .testimonial-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 1.5rem;
+    }
+    .stars { color: var(--amarillo); font-size: 0.85rem; letter-spacing: 0.15em; margin-bottom: 0.75rem; }
+    .testimonial-text {
+      font-family: 'Fraunces', serif; font-style: italic;
+      font-size: 0.95rem; color: rgba(255,255,255,0.75);
+      line-height: 1.65; margin-bottom: 1.25rem;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 0.75rem; }
+    .author-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--cafe-medio);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .author-name { font-size: 0.85rem; font-weight: 600; color: var(--blanco); }
+    .author-loc { font-size: 0.75rem; color: var(--gris); }
+
+    /* ─── CTA FINAL ─── */
+    .cta-section {
+      padding: 7rem 5vw; text-align: center;
+      background: var(--rojo);
+      position: relative; overflow: hidden;
+    }
+    .cta-section::before {
+      content: 'PIDE AHORA';
+      position: absolute; top: -1rem; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 15vw; letter-spacing: 0.1em;
+      color: rgba(0,0,0,0.1); white-space: nowrap;
+      pointer-events: none; user-select: none;
+    }
+    .cta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      letter-spacing: 0.03em; line-height: 1;
+      color: #fff; position: relative; z-index: 1;
+      margin-bottom: 1rem;
+    }
+    .cta-sub {
+      font-family: 'Fraunces', serif; font-style: italic;
+      font-size: 1.1rem; color: rgba(255,255,255,0.8);
+      margin-bottom: 2.5rem; position: relative; z-index: 1;
+    }
+    .cta-btn {
+      background: #fff; color: var(--rojo);
+      border: none; border-radius: var(--radius);
+      padding: 1rem 3rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer; transition: transform 0.15s, box-shadow 0.2s;
+      position: relative; z-index: 1;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #0D0A04; padding: 3rem 5vw;
+      display: grid; grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem; border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-brand .nav-logo { display: block; margin-bottom: 0.75rem; }
+    .footer-brand p { font-size: 0.82rem; color: var(--gris); line-height: 1.6; max-width: 280px; }
+    .footer-col h4 {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gris);
+      margin-bottom: 1rem;
+    }
+    .footer-col a {
+      display: block; color: rgba(255,255,255,0.6); text-decoration: none;
+      font-size: 0.85rem; margin-bottom: 0.5rem; transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--amarillo); }
+    .footer-bottom {
+      background: #0D0A04; padding: 1.25rem 5vw;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.75rem; color: var(--gris);
+    }
+
+    /* ─── CART FLOAT ─── */
+    .cart-float {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+      background: var(--rojo); color: #fff;
+      border: none; border-radius: 100px;
+      padding: 0.85rem 1.5rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+      box-shadow: 0 4px 20px rgba(192,57,43,0.5);
+      transition: transform 0.2s;
+    }
+    .cart-float:hover { transform: scale(1.04); }
+    .cart-count {
+      background: var(--amarillo); color: var(--carbon);
+      width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; padding-top: 6rem; gap: 2rem; }
+      .hero-plate { width: 260px; height: 260px; font-size: 6rem; }
+      .about-section { grid-template-columns: 1fr; gap: 3rem; }
+      footer { grid-template-columns: 1fr; gap: 2rem; }
+      .nav-links { display: none; }
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">El Rincón Chileno</div>
+    <ul class="nav-links">
+      <li><a href="#menu">Menú</a></li>
+      <li><a href="#historia">Nuestra Historia</a></li>
+      <li><a href="#opiniones">Opiniones</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <button class="nav-cta" onclick="scrollToMenu()">Pedir Ahora</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Comida Chilena Auténtica</div>
+      <h1 class="hero-title">
+        Sabor que<br>
+        <span>te llega</span>
+        al alma
+      </h1>
+      <p class="hero-sub">
+        Completos, chacareros, sopaipillas y mucho más. El sabor de siempre, listo en minutos — directo a tu puerta.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="scrollToMenu()">Ver el Menú</button>
+        <a href="#historia" class="btn-secondary">↓ Nuestra Historia</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">+8K</div>
+          <div class="stat-label">Clientes satisfechos</div>
+        </div>
+        <div>
+          <div class="stat-num">4.9★</div>
+          <div class="stat-label">Calificación promedio</div>
+        </div>
+        <div>
+          <div class="stat-num">25'</div>
+          <div class="stat-label">Entrega promedio</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-plate">
+        🌭
+        <div class="hero-tag top-right">Completo Italiano</div>
+        <div class="hero-tag bottom-left">Desde $2.500</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE STRIP -->
+  <div class="feature-strip">
+    <div class="feature-item">
+      <div class="feature-icon">🛵</div>
+      <div>
+        <span class="feature-label">Delivery Rápido</span>
+        <div class="feature-sub">En 25 minutos o menos</div>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🌶</div>
+      <div>
+        <span class="feature-label">Ingredientes Frescos</span>
+        <div class="feature-sub">Preparado al momento</div>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🤝</div>
+      <div>
+        <span class="feature-label">Receta Tradicional</span>
+        <div class="feature-sub">Sabor de barrio de siempre</div>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">📱</div>
+      <div>
+        <span class="feature-label">Pide por WhatsApp</span>
+        <div class="feature-sub">Simple, rápido y directo</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENÚ -->
+  <section class="menu-section" id="menu">
+    <div class="menu-header">
+      <div>
+        <p class="section-tag">Lo que más se pide</p>
+        <h2 class="section-title">Nuestro Menú</h2>
+        <p class="section-sub">Clásicos chilenos que nunca fallan, preparados con amor y los mejores ingredientes.</p>
+      </div>
+      <div class="menu-filters">
+        <button class="filter-btn active" onclick="filterMenu(this, 'all')">Todo</button>
+        <button class="filter-btn" onclick="filterMenu(this, 'completos')">Completos</button>
+        <button class="filter-btn" onclick="filterMenu(this, 'sandwich')">Sándwiches</button>
+        <button class="filter-btn" onclick="filterMenu(this, 'fritos')">Fritos</button>
+        <button class="filter-btn" onclick="filterMenu(this, 'bebidas')">Bebidas</button>
+      </div>
+    </div>
+
+    <div class="menu-grid" id="menuGrid">
+      <!-- Cards generadas por JS -->
+    </div>
+  </section>
+
+  <!-- HISTORIA -->
+  <section class="about-section" id="historia">
+    <div class="about-visual reveal">
+      <div class="about-img-main">🍳</div>
+      <div class="about-img-accent">MÁS DE<br>10 AÑOS<br>COCINANDO</div>
+    </div>
+    <div class="reveal">
+      <p class="section-tag">Nuestra Historia</p>
+      <h2 class="section-title">Cocina de verdad, hecha con cariño</h2>
+      <p class="section-sub">Nacimos en 2014 en un pequeño local de Santiago. Lo que empezó como una picá de barrio, hoy llega a toda la ciudad.</p>
+      <ul class="about-list">
+        <li>
+          <div class="about-check">✓</div>
+          <p><strong>Recetas auténticas:</strong> Preparamos todo siguiendo las recetas de siempre, sin atajos ni sustitutos baratos.</p>
+        </li>
+        <li>
+          <div class="about-check">✓</div>
+          <p><strong>Ingredientes locales:</strong> Trabajamos con proveedores chilenos para garantizar frescura y apoyar el comercio local.</p>
+        </li>
+        <li>
+          <div class="about-check">✓</div>
+          <p><strong>Preparación al instante:</strong> Nada está precocinado. Tu pedido se prepara cuando llega tu orden.</p>
+        </li>
+        <li>
+          <div class="about-check">✓</div>
+          <p><strong>Entrega rápida:</strong> Red de repartidores propios para que tu comida llegue caliente y a tiempo.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="testimonios-section" id="opiniones">
+    <p class="section-tag">Lo que dicen nuestros clientes</p>
+    <h2 class="section-title">Opiniones Reales</h2>
+    <div class="testimonios-grid" id="testimoniosGrid">
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2 class="cta-title">¿Listo para pedir?</h2>
+    <p class="cta-sub">Delivery disponible todos los días de 12:00 a 23:00 hrs.</p>
+    <button class="cta-btn" onclick="openWhatsApp()">Pedir por WhatsApp →</button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contacto">
+    <div class="footer-brand">
+      <span class="nav-logo">El Rincón Chileno</span>
+      <p>Comida rápida chilena con sabor de siempre. Delivery rápido, ingredientes frescos y el cariño de siempre en cada pedido.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Menú</h4>
+      <a href="#menu">Completos</a>
+      <a href="#menu">Sándwiches</a>
+      <a href="#menu">Fritos</a>
+      <a href="#menu">Bebidas</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <a href="#">📍 Santiago, Chile</a>
+      <a href="#">📞 +56 9 1234 5678</a>
+      <a href="#">✉ hola@rinconchileno.cl</a>
+      <a href="#">Instagram · TikTok · Facebook</a>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <span>© 2025 El Rincón Chileno — Todos los derechos reservados.</span>
+    <span>Diseñado con ❤ en Chile</span>
+  </div>
+
+  <!-- CART FLOAT -->
+  <button class="cart-float" id="cartBtn" onclick="openWhatsApp()" style="display:none;">
+    🛒 Tu pedido
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
+
+  <script>
+    const MENU = [
+      { id:1, nombre:"Completo Italiano", desc:"Pan con vienesa, tomate, palta y mayo. El clásico de Chile.", precio:3500, emoji:"🌭", categoria:"completos", badge:"Favorito" },
+      { id:2, nombre:"Completo As", desc:"Con tomate, mayo, mostaza y chucrut. El estilo tradicional.", precio:3200, emoji:"🌭", categoria:"completos", badge:null },
+      { id:3, nombre:"Completo Dinámico", desc:"Vienesa, puré de papa, tomate y mayo. Contundente y rico.", precio:4200, emoji:"🌭", categoria:"completos", badge:"Especial" },
+      { id:4, nombre:"Chacarero", desc:"Carne molida, porotos verdes, tomate y ají. Cien por ciento chileno.", precio:4500, emoji:"🥪", categoria:"sandwich", badge:"Nuevo" },
+      { id:5, nombre:"Barros Luco", desc:"Carne asada y queso fundido. Simple y delicioso.", precio:4000, emoji:"🥩", categoria:"sandwich", badge:null },
+      { id:6, nombre:"Churrasco Italiano", desc:"Carne a la plancha con tomate, palta y mayo. Una joya.", precio:4800, emoji:"🥪", categoria:"sandwich", badge:null },
+      { id:7, nombre:"Sopaipillas Pasadas", desc:"En salsa de chancaca con naranja y clavo. Postre o onces.", precio:2200, emoji:"🫓", categoria:"fritos", badge:null },
+      { id:8, nombre:"Papas Fritas Grandes", desc:"Crujientes, bien sazonadas con merquén y sal.", precio:2800, emoji:"🍟", categoria:"fritos", badge:"Nuevo" },
+      { id:9, nombre:"Empanadas Fritas x3", desc:"Pino chileno con cebolla, huevo y aceitunas.", precio:3600, emoji:"🥟", categoria:"fritos", badge:"Favorito" },
+      { id:10, nombre:"Bebida 500cc", desc:"Coca-Cola, Fanta, Sprite o Bilz y Pap. A elección.", precio:1500, emoji:"🥤", categoria:"bebidas", badge:null },
+      { id:11, nombre:"Mote con Huesillos", desc:"El refresco chileno más refrescante. Grande y bien frío.", precio:1800, emoji:"🍑", categoria:"bebidas", badge:"Temporada" },
+      { id:12, nombre:"Agua Mineral", desc:"Con o sin gas. 600ml.", precio:1200, emoji:"💧", categoria:"bebidas", badge:null },
+    ];
+
+    const TESTIMONIOS = [
+      { texto:"El completo italiano es idéntico al de la fuente de soda de mi barrio cuando era chico. Se nota que lo hacen con cariño y buenos ingredientes.", autor:"Camila R.", loc:"Providencia", emoji:"👩" },
+      { texto:"Pedí por primera vez y quedé enganchado. Llegó calientito, bien presentado y en menos de 20 minutos. Definitivamente vuelvo a pedir.", autor:"Sebastián M.", loc:"Las Condes", emoji:"👨" },
+      { texto:"Las empanadas fritas son una locura. Estilo abuela. No he encontrado nada igual en delivery. El servicio de WhatsApp es rapidísimo.", autor:"Valentina F.", loc:"Maipú", emoji:"👩" },
+    ];
+
+    let carrito = {};
+    let filtroActivo = 'all';
+
+    function renderMenu(filtro) {
+      const grid = document.getElementById('menuGrid');
+      const items = filtro === 'all' ? MENU : MENU.filter(i => i.categoria === filtro);
+      grid.innerHTML = items.map(item => `
+        <div class="menu-card reveal" data-id="${item.id}">
+          <div class="card-image">
+            ${item.badge ? `<div class="card-badge ${item.badge==='Nuevo'?'nuevo':''}">${item.badge}</div>` : ''}
+            ${item.emoji}
+          </div>
+          <div class="card-body">
+            <div class="card-name">${item.nombre}</div>
+            <div class="card-desc">${item.desc}</div>
+            <div class="card-footer">
+              <div class="card-price">$${item.precio.toLocaleString('es-CL')} <span>CLP</span></div>
+              <button class="add-btn" onclick="agregarAlCarrito(${item.id})" title="Agregar al pedido">+</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      observeReveal();
+    }
+
+    function renderTestimonios() {
+      document.getElementById('testimoniosGrid').innerHTML = TESTIMONIOS.map(t => `
+        <div class="testimonial-card reveal">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"${t.texto}"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">${t.emoji}</div>
+            <div>
+              <div class="author-name">${t.autor}</div>
+              <div class="author-loc">${t.loc}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterMenu(btn, cat) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filtroActivo = cat;
+      renderMenu(cat);
+    }
+
+    function agregarAlCarrito(id) {
+      carrito[id] = (carrito[id] || 0) + 1;
+      const total = Object.values(carrito).reduce((a,b) => a+b, 0);
+      document.getElementById('cartCount').textContent = total;
+      const btn = document.getElementById('cartBtn');
+      btn.style.display = 'flex';
+      btn.style.transform = 'scale(1.12)';
+      setTimeout(() => btn.style.transform = '', 200);
+    }
+
+    function openWhatsApp() {
+      const items = Object.entries(carrito);
+      let msg = '¡Hola! Quiero hacer un pedido:\n\n';
+      if (items.length > 0) {
+        items.forEach(([id, qty]) => {
+          const item = MENU.find(m => m.id == id);
+          if (item) msg += `• ${qty}x ${item.nombre} — $${(item.precio*qty).toLocaleString('es-CL')}\n`;
+        });
+        const total = items.reduce((acc,[id,qty]) => acc + (MENU.find(m=>m.id==id)?.precio||0)*qty, 0);
+        msg += `\nTotal: $${total.toLocaleString('es-CL')} CLP`;
+      } else {
+        msg = '¡Hola! Quiero ver el menú y hacer un pedido.';
+      }
+      window.open('https://wa.me/56912345678?text=' + encodeURIComponent(msg), '_blank');
+    }
+
+    function scrollToMenu() {
+      document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function observeReveal() {
+      const els = document.querySelectorAll('.reveal:not(.visible)');
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((e, i) => {
+          if (e.isIntersecting) {
+            setTimeout(() => e.target.classList.add('visible'), i * 80);
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      els.forEach(el => obs.observe(el));
+    }
+
+    renderMenu('all');
+    renderTestimonios();
+    observeReveal();
+  </script>
+</body>
+</html>
